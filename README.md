@@ -1,81 +1,78 @@
-**LeetCode Auto-Push to Github Chrome Extension 🚀**
+# LeetCode Auto-Push to GitHub - Chrome Extension
 
-A Chrome extension that automatically pushes accepted LeetCode solutions to an auto-created GitHub repository named Leetcode-Problems. It tracks your coding progress with detailed statistics and securely stores your GitHub token using AES-GCM encryption.
-Perfect for developers who want to save their LeetCode solutions effortlessly!
+LeetCode Auto-Push is a Chrome extension that automatically commits your accepted LeetCode solutions to a GitHub repository named `Leetcode-Problems`. It helps developers track their problem-solving progress efficiently, while securely storing GitHub credentials using AES-GCM encryption.
 
-✨ Features:
-No manual repo creation, you only submit code,  press yes to push and it will create a repo( only in first submission) and all future questions pushed there.
+## Features
 
-✅ Automatic Code Push
-Pushes accepted LeetCode solutions to:
-Leetcode-Problems/solutions/<problem-title>.<extension>
+- Automatically creates a GitHub repository on first accepted submission, you dont have to make a repo
+- Pushes future accepted LeetCode solutions to the same repository
+- Tracks problem counts by difficulty (Easy, Medium, Hard)
+- Displays daily, weekly, and total submission stats
+- Maintains streaks and persists data across sessions
+- Secure token storage using AES-GCM encryption
 
-📊 Persistent Stats Tracking
-Tracks:
-Total pushes
-Easy/Medium/Hard problem counts
-Daily & weekly submissions
-Streaks (with lifetime persistence)
+## Prerequisites
 
+- Google Chrome (version 90 or later)
+- GitHub account with a Personal Access Token(Discussed Below)
+- LeetCode account
 
-✅ Prerequisites
-Google Chrome: Version 90+
-GitHub Account: With Personal Access Token (discussed below)
-LeetCode Account
+## Installation
 
-⚙️ Installation
-It consist of 2 step: firstly Load extension to chrome and secondly get your github token
+### 1. Clone the Repository
 
-1)
-⚙️ Clone or Download the Repository
-Enable Developer Mode in Chrome
-Visit: chrome://extensions/
-Toggle Developer mode (top right)
-To load the Extension, Click Load unpacked
-Select the folder that you just downloaded, unzip it first
-The extension will appear as "LeetCode Auto-Push"
+Download or clone this repository to your local machine.
 
-Pin the Extension:
-Click the 🧩 puzzle icon in Chrome
-Pin LeetCode Auto-Push for easy access
+### 2. Load Extension in Chrome
 
-2)
-🔑 Generate GitHub Token
-Go to GitHub.com
-Navigate to Settings → Developer Settings → Personal Access Tokens
-Click Generate new token (classic)
-Set a name (e.g., LeetCode Auto Push Token)
-Choose an expiration (e.g., 90 days or no expiration)
-Check the box for repo scope only
-Click Generate token and copy it securely
+- Open Chrome and go to `chrome://extensions/`
+- Enable **Developer mode** (top right corner)
+- Click **Load unpacked**
+- Select the unzipped extension folder
+- The extension will now appear in your Chrome toolbar
 
-🚀 Usage
-1. Sign In
-Open the extension popup
-Paste your GitHub token
-Click Save Token
-Your GitHub username and stats will appear
+## 3. GitHub Token Setup
 
-2. Submit LeetCode Problem
-Submit your solution
-On “Accepted”, a popup will ask:
-“Push ‘<problem-name>’ to GitHub?”
-Click Yes
-A new repository will be created on first push and all future questions will be pushed here
+1. Go to [GitHub Settings](https://github.com/settings/tokens)
+2. Navigate to **Developer Settings** → **Personal Access Tokens**
+3. Click **Generate new token (classic)**
+4. Set a name (e.g., `LeetCode Auto Push Token`)
+5. Set expiration (90 days or no expiration)
+6. Enable the `repo` scope
+7. Generate the token and copy it securely
 
+## Usage
 
-📈 View Stats
-Open the popup to see:
-🧮 Total Pushed: 5
-🟢 Easy: 2, 🟠 Medium: 2, 🔴 Hard: 1
-📅 Today: 1, This Week: 3
-🔥 Streak: 3 days
+### 1. Sign In
 
-🔐 GitHub Token Security
-Stored with AES-GCM encryption using a unique key per user
-Only repo scope required
-Token is never sent to any external server
+- Open the extension popup
+- Paste your GitHub token
+- Click **Save Token**
+- Your GitHub username and submission stats will appear
 
-🔄 Logout Process
-When logging out and back in again:
-All your stats and data are retained and restored
+### 2. Submit a LeetCode Problem
+
+- Solve and submit a problem on LeetCode
+- Upon "Accepted", a popup will appear: "Push `<Problem Name>` to GitHub?"
+- Click **Yes** to push the code
+- A repository will be created automatically on the first submission
+
+### 3. View Submission Stats
+
+- Open the extension popup to view:
+  - Total problems pushed
+  - Count of Easy / Medium / Hard problems
+  - Today’s and This Week’s submissions
+  - Current streak
+
+## Token Security
+
+- Tokens are stored securely using AES-GCM encryption
+- Each user has a unique encryption key
+- Only the `repo` scope is required
+- Tokens are never transmitted to any external server
+
+## Logout & Session Persistence
+
+- When logging out and back in, all stats and token data are restored
+- Your history and progress remain intact
