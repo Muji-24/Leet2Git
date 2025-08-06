@@ -1,4 +1,4 @@
-LeetCode Auto-Push to Github Chrome Extension 🚀
+**LeetCode Auto-Push to Github Chrome Extension 🚀**
 
 A Chrome extension that automatically pushes accepted LeetCode solutions to an auto-created GitHub repository named Leetcode-Problems. It tracks your coding progress with detailed statistics and securely stores your GitHub token using AES-GCM encryption.
 Perfect for developers who want to save their LeetCode solutions effortlessly!
