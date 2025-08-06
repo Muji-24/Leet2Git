@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "LeetCode Auto-Push to GitHub",
+  "version": "1.0",
+  "description": "Automatically pushes accepted LeetCode solutions to GitHub.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://leetcode.com/*",
+    "https://leetcode.cn/*",
+    "https://api.github.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icons/icons8-leetcode-48.png",
+      "96": "icons/icons8-leetcode-96.png"
+    }
+  },
+  "icons": {
+    "48": "icons/icons8-leetcode-48.png",
+    "96": "icons/icons8-leetcode-96.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://leetcode.com/problems/*", "https://leetcode.cn/problems/*"],
+      "js": ["content.js"],
+      "css": ["popup.css"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
