@@ -2,16 +2,12 @@ body {
   width: 360px;
   padding: 20px;
   font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
-  color: #000000;
+  background: linear-gradient(135deg, #1C2526, #2E3A3B);
+  color: #E8ECEF;
   transition: all 0.3s ease;
   border-radius: 14px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
   position: relative;
-}
-
-body.dark {
-  background: linear-gradient(135deg, #1C2526, #2E3A3B);
-  color: #E8ECEF;
 }
 
 .logo-container {
@@ -21,13 +17,9 @@ body.dark {
   gap: 12px;
   margin-bottom: 20px;
   padding: 10px;
-  background: linear-gradient(135deg, #ED1C24, #FFFFFF); /* Palestine red to white */
+  background: linear-gradient(135deg, #FF4D4F, #2E3A3B);
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-body.dark .logo-container {
-  background: linear-gradient(135deg, #FF4D4F, #2E3A3B);
 }
 
 .logo {
@@ -40,13 +32,9 @@ h2 {
   text-align: center;
   font-size: 24px;
   font-weight: 700;
-  color: #ffffff; /* Palestine red */
+  color: #ffffff;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   margin: 0;
-}
-
-body.dark h2 {
-  color: #ffffff; /* Lighter red */
 }
 
 #container {
@@ -57,23 +45,17 @@ body.dark h2 {
 
 .input-field {
   padding: 12px;
-  border: 2px solid #000000; /* Palestine black */
+  border: 2px solid #E8ECEF;
   border-radius: 10px;
   font-size: 15px;
-  background: #FFFFFF;
-  color: #000000;
-  transition: all 0.3s ease;
-}
-
-body.dark .input-field {
-  border-color: #E8ECEF;
   background: #2E3A3B;
   color: #E8ECEF;
+  transition: all 0.3s ease;
 }
 
 .input-field:focus {
   outline: none;
-  border-color: #009739; /* Palestine green */
+  border-color: #009739;
   box-shadow: 0 0 10px rgba(0, 151, 57, 0.5);
 }
 
@@ -113,23 +95,15 @@ body.dark .input-field {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #009739, #00B74A); /* Palestine green */
+  background: linear-gradient(135deg, #007B2F, #009739);
   color: #FFFFFF;
   margin-top: 8px;
 }
 
-body.dark .btn-primary {
-  background: linear-gradient(135deg, #007B2F, #009739);
-}
-
 .btn-secondary {
-  background: linear-gradient(135deg, #000000, #333333); /* Palestine black */
+  background: linear-gradient(135deg, #1C2526, #000000);
   color: #FFFFFF;
   margin-top: 12px;
-}
-
-body.dark .btn-secondary {
-  background: linear-gradient(135deg, #1C2526, #000000);
 }
 
 #status {
@@ -138,11 +112,7 @@ body.dark .btn-secondary {
 
 .username {
   font-weight: 700;
-  color: #ED1C24; /* Palestine red */
-}
-
-body.dark .username {
-  color: #FF4D4F; /* Lighter red */
+  color: #FF4D4F;
 }
 
 #stats {
@@ -151,16 +121,10 @@ body.dark .username {
   gap: 12px;
   margin-top: 12px;
   padding: 15px;
-  background: rgba(255, 255, 255, 0.9); /* Glassmorphism */
+  background: rgba(46, 58, 59, 0.9);
   backdrop-filter: blur(8px);
-  border: 2px solid #ED1C24; /* Palestine red */
+  border: 2px solid #FF4D4F;
   border-radius: 10px;
-  color: #000000;
-}
-
-body.dark #stats {
-  background: rgba(46, 58, 59, 0.9); /* Dark green */
-  border-color: #FF4D4F;
   color: #E8ECEF;
 }
 
@@ -185,20 +149,15 @@ body.dark #stats {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: linear-gradient(#ED1C24); /* Palestine red to white */
+  background: linear-gradient(135deg, #FF4D4F, #2E3A3B);
   padding: 25px;
-  border: 2px solid #000000; /* Palestine black */
+  border: 2px solid #E8ECEF;
   border-radius: 12px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
   z-index: 10000;
   text-align: center;
   animation: slideIn 0.4s ease;
   width: 320px;
-}
-
-body.dark #custom-popup {
-  background: linear-gradient(135deg, #FF4D4F, #2E3A3B);
-  border-color: #E8ECEF;
   color: #E8ECEF;
 }
 
@@ -213,10 +172,6 @@ body.dark #custom-popup {
   margin: 0 0 18px;
   font-size: 19px;
   font-weight: 600;
-  color: #000000;
-}
-
-body.dark #custom-popup h3 {
   color: #E8ECEF;
 }
 
@@ -228,15 +183,11 @@ footer {
   text-align: center;
   margin-top: 20px;
   padding: 10px;
-  background: linear-gradient(135deg, #009739, #ED1C24); /* Green to red */
+  background: linear-gradient(135deg, #007B2F, #FF4D4F);
   border-radius: 8px;
   color: #FFFFFF;
   font-size: 14px;
   font-weight: 600;
-}
-
-body.dark footer {
-  background: linear-gradient(135deg, #007B2F, #FF4D4F);
 }
 
 @keyframes slideIn {

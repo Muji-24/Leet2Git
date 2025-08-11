@@ -33,5 +33,13 @@
   ],
   "background": {
     "service_worker": "background.js"
+  },"web_accessible_resources": [
+  {
+    "resources": [
+      "icons/icons8-leetcode-96.png",
+      "icons/icons8-leetcode-48.png"
+    ],
+    "matches": ["<all_urls>"]
   }
+]
 }

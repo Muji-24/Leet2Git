@@ -44,11 +44,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return;
       }
 
-      // Validate code length
-      if (code.length < 50) {
-        alert('Code is too short or empty. Please check the editor.');
-        return;
-      }
+      // Validate code length and structure
+      
 
       // Normalize code
       const normalizedCode = code.replace(/\r\n|\r|\n/g, '\n');
@@ -66,7 +63,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         'go': { ext: 'go', comment: '//' }
       };
       const langInfo = languageMap[language] || { ext: normalizedCode.includes('def ') ? 'py' : 'cpp', comment: '//' };
-      const filePath = `solutions/${problemTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}.${langInfo.ext}`;
+      const versionFolder = `solutions/${problemTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}/versions/`;
       const metadata = `${langInfo.comment} LeetCode Problem: ${problemTitle}\n${langInfo.comment} Difficulty: ${difficulty || 'Unknown'}\n${langInfo.comment} Pushed on: ${new Date().toISOString().split('T')[0]}\n\n${normalizedCode}`;
 
       // Check if Leetcode-Problems repo exists
@@ -88,7 +85,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           },
           body: JSON.stringify({
             name: repoName,
-            description: 'LeetCode solutions pushed by LeetCode Auto-Push extension. Free Palestine 🇵🇸',
+            description: 'LeetCode solutions pushed by LeetCode Auto-Push extension.',
             auto_init: true
           })
         });
@@ -97,57 +94,81 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         repoData = await repoResponse.json();
       }
 
-      if (repoData.id) {
-        // Push code to repo
-        const fileContent = btoa(unescape(encodeURIComponent(metadata)));
-        const pushResponse = await fetch(`https://api.github.com/repos/${githubUsername}/${repoName}/contents/${filePath}`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${githubToken}`,
-            'Accept': 'application/vnd.github.v3+json'
-          },
-          body: JSON.stringify({
-            message: `Add solution for ${problemTitle}`,
-            content: fileContent,
-            branch: 'main'
-          })
-        });
-        const pushData = await pushResponse.json();
-
-        if (pushData.content) {
-          // Update stats
-          const user = userStats[githubUsername] || {
-            pushCount: 0,
-            easyCount: 0,
-            mediumCount: 0,
-            hardCount: 0,
-            submissionTimestamps: [],
-            streak: 0,
-            lastSolveDate: ''
-          };
-          const newTimestamps = [...user.submissionTimestamps, new Date().toISOString()];
-          const updates = {
-            pushCount: user.pushCount + 1,
-            submissionTimestamps: newTimestamps,
-            lastSolveDate: new Date().toISOString().split('T')[0]
-          };
-          if (difficulty.toLowerCase() === 'easy') updates.easyCount = user.easyCount + 1;
-          else if (difficulty.toLowerCase() === 'medium') updates.mediumCount = user.mediumCount + 1;
-          else if (difficulty.toLowerCase() === 'hard') updates.hardCount = user.hardCount + 1;
-          userStats[githubUsername] = { ...user, ...updates };
-
-          chrome.storage.local.set({ userStats }, () => {
-            chrome.runtime.sendMessage({ 
-              action: 'pushSuccess', 
-              repoUrl: `https://github.com/${githubUsername}/${repoName}/tree/main/solutions`,
-              problemTitle
-            });
-          });
-        } else {
-          alert('Failed to push code: ' + (pushData.message || 'Unknown error'));
-        }
-      } else {
+      if (!repoData.id) {
         alert('Failed to access or create repository: ' + (repoData.message || 'Unknown error'));
+        return;
+      }
+
+      // Check versions folder for existing submissions
+      let versionNumber = 0;
+      const checkVersionsResponse = await fetch(`https://api.github.com/repos/${githubUsername}/${repoName}/contents/${versionFolder}`, {
+        headers: {
+          'Authorization': `token ${githubToken}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+
+      if (checkVersionsResponse.status === 200) {
+        const existingVersions = await checkVersionsResponse.json();
+        versionNumber = existingVersions.filter(file => 
+          file.name.startsWith(`${problemTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}_v`) && 
+          file.name.endsWith(`.${langInfo.ext}`)
+        ).length;
+      } // If 404, versions folder doesn't exist yet, start with v1
+
+      const filePath = `${versionFolder}${problemTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}_v${versionNumber + 1}.${langInfo.ext}`;
+      console.log('Versioning:', { problemTitle, versionNumber: versionNumber + 1, filePath });
+
+      // Push code to repo
+      const fileContent = btoa(unescape(encodeURIComponent(metadata)));
+      const pushResponse = await fetch(`https://api.github.com/repos/${githubUsername}/${repoName}/contents/${filePath}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${githubToken}`,
+          'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify({
+          message: `Add version ${versionNumber + 1} of solution for ${problemTitle}`,
+          content: fileContent,
+          branch: 'main'
+        })
+      });
+      const pushData = await pushResponse.json();
+
+      if (pushData.content) {
+        // Update stats
+        const user = userStats[githubUsername] || {
+          pushCount: 0,
+          easyCount: 0,
+          mediumCount: 0,
+          hardCount: 0,
+          submissionTimestamps: [],
+          streak: 0,
+          lastSolveDate: ''
+        };
+        const newTimestamps = [...user.submissionTimestamps, new Date().toISOString()];
+        const updates = {
+          pushCount: user.pushCount + 1,
+          easyCount: user.easyCount,
+          mediumCount: user.mediumCount,
+          hardCount: user.hardCount,
+          submissionTimestamps: newTimestamps,
+          lastSolveDate: new Date().toISOString().split('T')[0]
+        };
+        if (difficulty.toLowerCase() === 'easy') updates.easyCount = user.easyCount + 1;
+        else if (difficulty.toLowerCase() === 'medium') updates.mediumCount = user.mediumCount + 1;
+        else if (difficulty.toLowerCase() === 'hard') updates.hardCount = user.hardCount + 1;
+        userStats[githubUsername] = { ...user, ...updates };
+
+        chrome.storage.local.set({ userStats }, () => {
+          chrome.runtime.sendMessage({ 
+            action: 'pushSuccess', 
+            repoUrl: `https://github.com/${githubUsername}/${repoName}/tree/main/solutions`,
+            problemTitle
+          });
+        });
+      } else {
+        alert('Failed to push code: ' + (pushData.message || 'Unknown error'));
       }
     });
   }
